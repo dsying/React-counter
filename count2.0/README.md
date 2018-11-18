@@ -52,4 +52,56 @@ const reducer(state, action) {
 + 通过dispatch方法派发action
 
 
+## Redux DevTools Extension
+Redux 开发工具可以让 store 可视化
+```javascript
+ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+ const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
+    applyMiddleware()
+  ));
 
+```
+
+
+
+## 容器组件和傻瓜组件
+### 一个React组件基本上要完成两个功能
++ 1 和Redux Store打交道
+    + 读取store的状态，用于组件状态的初始化
+    + 监听store的状态，用于更新组件的状态
++ 2 根据当前props和state的值，渲染出用户界面
+
+### 我们可以把一个组件根据上述两个功能拆分为两个组件
++ 组件1： 负责与Redux打交道
++ 组件2： 负责渲染用户界面
+
+这样的关系里，这两个组件是父子组件的关系
++ 容器组件： 即组件1，我们把与Redux打交道的父组件称为容器组件，既然是容器即要包裹别的组件
++ 傻瓜组件： 即组件2，也称为UI组件，只负责渲染页面，数据来自于外部容器组件即父组件传过来的数据，通过**props**获取
+
+上述都是我们已经学习过的知识
+
+### 容器组件
++ 容器组件通过，**props**,将状态传递给傻瓜组件
+```javascript
+render() {
+    return (
+        <CounterUI handleIncrement={this.handleIncrement} handleDecrement={this.handleDecrement} count={this.state.count}/>
+    )
+}
+```
+### 傻瓜组件(UI组件)
++ 傻瓜组件是一个**无状态组件**,只需要根据**props**来渲染结果，不需要**state**
+
+```javascript
+const CounterUI = (props) => {
+    const { count, handleIncrement, handleDecrement } = props
+    return (
+        <div>
+            <button onClick={handleIncrement}>+</button>
+            <button onClick={handleDecrement}>-</button>
+            <span>count: {count}</span>
+        </div>
+    )
+}
+```

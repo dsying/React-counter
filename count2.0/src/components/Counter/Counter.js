@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import store  from '../../store/store';
 import { Actions } from './store/index'
+import CounterUI from './CounterUI'
 
 class Counter extends Component {
     constructor(props) {
@@ -21,11 +22,7 @@ class Counter extends Component {
 
     render() {
         return (
-            <div>
-                <button onClick={this.handleIncrement}>+</button>
-                <button onClick={this.handleDecrement}>-</button>
-                <span>count: {this.state.count}</span>
-            </div>
+            <CounterUI handleIncrement={this.handleIncrement} handleDecrement={this.handleDecrement} count={this.state.count}/>
         )
     }
     
